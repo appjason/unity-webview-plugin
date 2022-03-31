@@ -90,6 +90,13 @@ var unityWebView =
         }
     },
 
+    registerMsgCallback: function (name) {
+        window.addEventListener("message", event => {
+            console.log(event)
+            unityInstance.SendMessage(name, "CallFromJS", event.data)
+        }, false)
+    },
+
     destroy: function (name) {
         this.iframe(name).parent().parent().remove();
     },

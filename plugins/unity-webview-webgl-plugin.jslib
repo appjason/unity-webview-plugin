@@ -19,6 +19,10 @@ mergeInto(LibraryManager.library, {
 		unityWebView.evaluateJS(Pointer_stringify(name), Pointer_stringify(js));
 	},
 
+	_gree_unity_webview_registerMsgCallback: function(name, js) {
+		unityWebView.registerMsgCallback(Pointer_stringify(name));
+	},
+
 	_gree_unity_webview_destroy: function(name) {
 		unityWebView.destroy(Pointer_stringify(name));
 	},

@@ -56,6 +56,7 @@ public class WebViewObject : MonoBehaviour
     Callback onLoaded;
     Callback onHooked;
     bool visibility;
+    bool callbacksRegistered = false;
     bool alertDialogEnabled;
     bool scrollBounceEnabled;
     int mMarginLeft;
@@ -328,6 +329,8 @@ public class WebViewObject : MonoBehaviour
     private static extern void _gree_unity_webview_loadURL(string name, string url);
     [DllImport("__Internal")]
     private static extern void _gree_unity_webview_evaluateJS(string name, string js);
+    [DllImport("__Internal")]
+    private static extern void _gree_unity_webview_registerMsgCallback(string name);
     [DllImport("__Internal")]
     private static extern void _gree_unity_webview_destroy(string name);
 #endif
@@ -829,6 +832,25 @@ public class WebViewObject : MonoBehaviour
         if (webView == null)
             return;
         webView.Call("EvaluateJS", js);
+#endif
+    }
+
+    public void RegisterMsgCallback()
+    {
+        if (callbacksRegistered) return;
+        callbacksRegistered = true;
+#if UNITY_WEBGL
+#if !UNITY_EDITOR
+        _gree_unity_webview_registerMsgCallback(name);
+#endif
+#elif UNITY_WEBPLAYER
+        //TODO: UNSUPPORTED
+#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || UNITY_EDITOR_LINUX
+        //TODO: UNSUPPORTED
+#elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX || UNITY_IPHONE
+        //TODO: UNSUPPORTED
+#elif UNITY_ANDROID
+        //TODO: UNSUPPORTED
 #endif
     }
 
